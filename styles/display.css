@@ -280,6 +280,8 @@ section
 	top: -40px;
 }
 
+
+
 /*********************************
 3.1 Top Bar
 *********************************/
@@ -692,6 +694,7 @@ section
 	letter-spacing: 0.03em;
 	color: #FFFFFF;
 	line-height: 1.18;
+	margin-top: -50px;
 }
 
 .home_title span
@@ -701,6 +704,16 @@ section
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
 	color: #FFFFFF;
+	line-height: 1.18;
+}
+
+.home_title span.redWriting
+{
+	font-size: 55px;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	color: #b10707;
 	line-height: 1.18;
 }
 .home_text
@@ -1201,6 +1214,7 @@ section
 	padding-bottom: 40px;
 	padding-left: 30px;
 	padding-right: 30px;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 .donation_funds
 {
