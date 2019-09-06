@@ -55,14 +55,14 @@
                                 <div class="donation_detailss">
                                     <div class="donation_funds">
                                         <div class="donation_funds_title">Remaining: </div>
-                                        <div class="donations_funds_value">$267,000</div>
+                                        <div class="donations_funds_value">$255,000</div>
                                     </div>
                                     <div class="donation_progress_container">
                                         <div class="donation_progress_outer">
-                                            <div class="donation_progress" style="width:27.60%;"><div class="donation_progress_value">29.70%</div></div>
+                                            <div class="donation_progress" style="width:32.89%;"><div class="donation_progress_value">32.89%</div></div>
                                         </div>
                                         <div class="donation_info d-flex flex-row align-items-center justify-content-start">
-                                            <div class="donation_current">Raised: <span>$113,000</span></div>
+                                            <div class="donation_current">Raised: <span>$125,000</span></div>
                                             <div class="donation_goal ml-auto">Goal: <span>$380,000</span></div>
                                         </div>
                                         <div class="button donation_button"><a href="donation.html">donate @ berkeleymasjid.org</a></div>
@@ -95,7 +95,7 @@
 						<br>
 						<ul>
 							<li class="section_title text-right">
-								Fajr: 5:45AM
+								Fajr: 6:00AM
 							</li>
 							<li class="section_title text-right">
 								Duhr: 1:30PM
@@ -107,7 +107,7 @@
 								Magrib: +10mins
 							</li>
 							<li class="section_title text-right">
-								Isha: 9:30PM
+								Isha: 9:00PM
 							</li>
 							<li class="section_title ">
 								Jumuah: 1:30PM
@@ -193,5 +193,28 @@
 <script src="plugins/parallax-js-master/parallax.min.js"></script>
 <script src="plugins/colorbox/jquery.colorbox-min.js"></script>
 <script src="js/sermons.js"></script>
+
+<script>
+
+function refreshAt(hours, minutes, seconds) {
+    var now = new Date();
+    var then = new Date();
+
+    if(now.getHours() > hours ||
+       (now.getHours() == hours && now.getMinutes() > minutes) ||
+        now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
+        then.setDate(now.getDate() + 1);
+    }
+    then.setHours(hours);
+    then.setMinutes(minutes);
+    then.setSeconds(seconds);
+
+    var timeout = (then.getTime() - now.getTime());
+    setTimeout(function() { window.location.reload(true); }, timeout);
+}
+
+refreshAt(21,35,0);
+
+</script>
 </body>
 </html>
