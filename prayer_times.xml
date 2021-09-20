@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'utf--8?.
+<!-- central reference for all prayer times-->
+<main
+	fajr="6:00 AM"
+	dhuhr="1:30 PM"
+	jumuah="1:30 PM"
+	asr="5:00 PM"
+	maghrib="+10 minutes"
+	isha="9:00 PM"
+	>
+</main>
