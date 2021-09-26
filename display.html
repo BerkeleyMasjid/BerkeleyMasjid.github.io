@@ -52,31 +52,17 @@
 
                     <div class="col-lg-6">
                             <div class="donation_details_container">
-                                <div class="donation_detailss">
-                                    <div class="donation_funds">
-                                        <div class="donation_funds_title">Remaining: </div>
-                                        <div class="donations_funds_value">$32,000</div>
-                                    </div>
-                                    <div class="donation_progress_container">
-                                        <div class="donation_progress_outer">
-                                            <div class="donation_progress" style="width:58%;"><div class="donation_progress_value">58%</div></div>
-                                        </div>
-                                        <div class="donation_info d-flex flex-row align-items-center justify-content-start">
-                                            <div class="donation_current">Raised: <span>$23,000</span></div>
-                                            <div class="donation_goal ml-auto">Goal: <span>$55,000</span></div>
-                                        </div>
-                                        <div class="button donation_button"><a href="donation.html">donate @ berkeleymasjid.org</a></div>
-                                    </div>
-                                </div>
+       
                             </div>
 
 
                             <div class="donation_details_container">
                                     <div class="donation_detailss">
                                         <div class="donation_funds">
-                                                <a href="http://fiveprayers.org/display/index.php?id=berkeleymasjid">
+                                            <img src="images/zelle.png" alt=""></a>
                                                 <img src="images/venmocash.png" alt=""></a>
-           
+                                            <br>
+                                            <br>
                                             <div class="donations_funds_value">@510-610-9505</div>
                                             <div class="donations_funds_value">@BerkeleyMasjid</div>
                                             
@@ -132,13 +118,19 @@
 							color: #181818;
 						
 							">
-                            ibnSina385</span>
+                            ibnSina385
+                            <br>
+                            <br>
+                        
+                            Current Time: <span id="time" />
+                        </span>
                             
-                            <br>
-                            <br>
-                         
+                            
                         <br>
-                        <iframe scrolling="no" frameborder="no" clocktype="html5" style="overflow:hidden;border:0;margin:0;padding:0;width:450px;height:210px;"src="https://www.clocklink.com/html5embed.php?clock=048&timezone=GMT-0700&color=red&size=450&Title=&Message=&Target=&From=2019,1,1,0,0,0&Color=red"></iframe>
+                        <br>
+                         
+                        
+
 
 							
 						</div>
@@ -196,23 +188,27 @@
 
 <script>
 
-function refreshAt(hours, minutes, seconds) {
-    var now = new Date();
-    var then = new Date();
-
-    if(now.getHours() > hours ||
-       (now.getHours() == hours && now.getMinutes() > minutes) ||
-        now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
-        then.setDate(now.getDate() + 1);
+function updateTime() {
+        var currentTime = new Date();
+        var hours = currentTime.getHours();
+        var minutes = currentTime.getMinutes();
+        var seconds = currentTime.getSeconds();
+        if (minutes < 10){
+            minutes = "0" + minutes;
+        }
+        if (seconds < 10){
+            seconds = "0" + seconds;
+        }
+        var v = hours + ":" + minutes + ":" + seconds + " ";
+        if(hours > 11){
+            v+="PM";
+        } else {
+            v+="AM"
+        }
+        setTimeout("updateTime()",1000);
+        document.getElementById('time').innerHTML=v;
     }
-    then.setHours(hours);
-    then.setMinutes(minutes);
-    then.setSeconds(seconds);
-
-    var timeout = (then.getTime() - now.getTime());
-    setTimeout(function() { window.location.reload(true); }, timeout);
-}
-
+    updateTime();
 
 </script>
 </body>
