@@ -179,7 +179,7 @@
 			
 			function getYYYYMMDD(date) {
 				var YYYY = date.getFullYear();
-				var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+				var MM = ("0" + (date.getMonth()+1)).slice(-2);
 				var DD = ("0" + date.getDate()).slice(-2);
 				return YYYY + MM + DD;
 			}
@@ -188,7 +188,7 @@
 				var YYYY = dateYYYYMMDD.substring(0, 4);
 				var MM = dateYYYYMMDD.substring(4, 6);
 				var DD = dateYYYYMMDD.substring(6, 8);
-				return new Date(parseInt(YYYY), parseInt(MM), parseInt(DD), 0, 0, 0, 0);
+				return new Date(parseInt(YYYY), parseInt(MM)-1, parseInt(DD), 0, 0, 0, 0);
 			}
 			
 			function findIqamaChangeDates(times_json, today) {
