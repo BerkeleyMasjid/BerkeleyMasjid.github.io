@@ -262,7 +262,7 @@
 			}
 			
 			function updateDisplayTimes() {
-				fetch('./timetable.json?nocache=' + (new Date()).getTime())
+				fetch('./timetable.json')
 					.then((response) => response.json())
 					.then((json) => processTimes(json));
 			}
