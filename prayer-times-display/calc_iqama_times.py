@@ -59,6 +59,30 @@ def find_next_time_step(time: int, incr_hr = 0.5, reverse=False) -> int:
                 return step
 
 
+def find_next_n_transitions(df: pd.DataFrame, pos, n) -> list[int]:
+    """Given a series and index position, walk back and find the 
+        index of the last n value transitions"""
+
+    transitions = []
+    last_val = None
+
+    while n and pos <= len(df.index)-1:
+        if last_val == None:
+            last_val = df.loc[pos]
+            continue
+
+        if df.loc[pos] != last_val:
+            transitions.append(pos)
+            n -= 1
+
+        last_val = df.loc[pos]
+        pos += 1
+
+    if not transitions:
+        transitions = [df.index[-1]]
+
+    return transitions
+
 def find_last_n_transitions(df: pd.DataFrame, pos, n) -> list[int]:
     """Given a series and index position, walk back and find the 
         index of the last n value transitions"""
@@ -187,7 +211,8 @@ if __name__ == "__main__":
     df.loc[:, "dhuhr_iqama"] = 13.5
     df.loc[:, "maghrib_iqama"] = df.loc[:, "maghrib"] + 10/60
     
-    df = rough_iqama_time_estimation(df, "fajr_iqama", "fajr", 5/60, "sunrise", -40/60)
+    df = rough_iqama_time_estimation(df, "fajr_iqama", "fajr", 2/60, "sunrise", -40/60)
+    # df = rough_iqama_time_estimation(df, "isha_iqama2", "isha", 5/60, "isha", 45/60)
             
     df = smooth_iqama_transitions(df, "fajr_iqama", "fajr", 0, "sunrise", -30/60)
 
@@ -233,7 +258,7 @@ if __name__ == "__main__":
     lower_bound_name = "isha"
     lower_bound_offset = 0/60
     upper_bound_name = "isha"
-    upper_bound_offset = 1.3
+    upper_bound_offset = 1
     iqama_step = 0.5
     # df.loc[:, "isha_limit"] = df.loc[:, "isha"] + upper_bound_offset
     for i, transition in enumerate(fajr_transitions):
@@ -262,6 +287,14 @@ if __name__ == "__main__":
 
     df.loc[df.index[-1], iqama_name] = iqama
 
+    # minor correction to isha iqama step size
+    for i in df.index:
+        if df.loc[i, "isha_iqama"] < df.loc[i, "isha"]:
+            next_transition = find_next_n_transitions(df.loc[:, "isha_iqama"], i, 1)[0]
+            half_way = (next_transition - i)//2 + i
+            df.loc[i:half_way, "isha_iqama"] = find_next_time_step(df.loc[i:half_way, "isha"].max())
+
+
     min_asr_time = 16 # 4 PM
     for i in df.index:
         if df.loc[i, "asr_iqama"] < min_asr_time:
@@ -280,9 +313,10 @@ if __name__ == "__main__":
     df = smooth_iqama_transitions(df, "asr_iqama", "asr", 0, "maghrib", -30/60, walkback=False)
     df = smooth_iqama_transitions(df, "isha_iqama", "isha", 10/60, "isha", 1, walkback=False)
 
-    ax = df.iloc[:365*4].plot()
+    ax = df.iloc[365:365*4].plot(figsize=(20, 10))
     ax.set_yticks(np.arange(0, 24, 1))
     plt.grid(True)
+    plt.savefig('timetable.png')
     plt.show()
 
     with open("timetable.json", "w+") as f:

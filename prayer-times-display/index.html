@@ -53,20 +53,21 @@
 			left: 0;
 		}
 		#timetable {
-			width: 80vw;
+			width: 60vw;
 			height: 60%;
-			margin: 2vh 10vw;
-			font-size: 6vh;
+			margin: 2vh 20vw;
+			font-size: 5.6vh;
 			text-align: center;
 			border-collapse:separate;
 			border-spacing: 0 1vh;
     		border: solid 0px #000;
 		}
 		#timetable th {
-			font-size: 2vh;
+			font-size: 2.3vh;
+			vertical-align: bottom;
 		}
 		#timetable tr:not(:first-child) {
-			background: #F1F1F1;
+			background: #DBDBDB;
 		}
 		#timetable td:first-child { 
 		  	border-top-left-radius: 1vh; 
@@ -96,7 +97,7 @@
 		.arrow {
 			position:relative;
     		top:-0.3vh;
-			font-size: 3vh;
+			font-size: 2vh;
 			line-height: 2.4vh;
 		}
 		.friday_note {
@@ -104,6 +105,24 @@
     		top:-0.5vh;
 			font-size: 2.5vh;
 			line-height: 2.4vh;
+		}
+		.urgent {
+			animation: urgent_blinker 2s linear infinite;
+		}
+
+		@keyframes urgent_blinker {
+			65% {
+				opacity: 1;
+			  }
+			55% {
+				opacity: 0;
+			  }
+			45% {
+				opacity: 0;
+			  }
+			35% {
+				opacity: 1;
+			  }
 		}
 	</style>
 	<body>
@@ -117,49 +136,49 @@
 					<th></th>
 					<th>Athan</th>
 					<th>Iqama</th>
-					<th></th>
-					<th>Upcoming<br>Iqama Changes</th>
+<!--					<th></th>-->
+					<th style="font-size: 1.5vh;">Upcoming<br>Iqama Changes</th>
 				</tr>
 				<tr>
 					<td class="prayer_name">Fajr</td>
 					<td id="fajr_athan" class="athan_time">0:00</td>
 					<td id="fajr_iqama">0:00</td>
-					<td id="fajr_arrow">→</td>
+<!--					<td id="fajr_arrow">→</td>-->
 					<td id="fajr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 				<tr>
 					<td class="prayer_name">Sunrise</td>
 					<td id="sunrise_athan" class="athan_time">0:00</td>
 					<td id="sunrise_iqama">0:00</td>
-					<td id="sunrise_arrow">→</td>
+<!--					<td id="sunrise_arrow">→</td>-->
 					<td id="sunrise_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 				<tr class="">
 					<td class="prayer_name" style="font-size: 5vh">Dhuhr<br><span class="friday_note">+ Friday Prayer</span></td>
 					<td id="dhuhr_athan" class="athan_time">0:00</td>
 					<td id="dhuhr_iqama">0:00</td>
-					<td id="dhuhr_arrow">→</td>
+<!--					<td id="dhuhr_arrow">→</td>-->
 					<td id="dhuhr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 				<tr>
 					<td class="prayer_name">Asr</td>
 					<td id="asr_athan" class="athan_time">0:00</td>
 					<td id="asr_iqama">0:00</td>
-					<td id="asr_arrow">→</td>
+<!--					<td id="asr_arrow">→</td>-->
 					<td id="asr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 				<tr class="">
 					<td class="prayer_name">Maghrib</td>
 					<td id="maghrib_athan" class="athan_time">0:00</td>
 					<td id="maghrib_iqama">0:00</td>
-					<td id="maghrib_arrow">→</td>
+<!--					<td id="maghrib_arrow">→</td>-->
 					<td id="maghrib_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 				<tr>
 					<td class="prayer_name">Isha</td>
 					<td id="isha_athan" class="athan_time">0:00</td>
 					<td id="isha_iqama">0:00</td>
-					<td id="isha_arrow">→</td>
+<!--					<td id="isha_arrow">→</td>-->
 					<td id="isha_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
 				</tr>
 			</table>
@@ -239,16 +258,24 @@
 				
 				for (let prayer in iqama_change_dates) {
 					if (iqama_change_dates[prayer] == "") {
-						document.getElementById(prayer+"_arrow").innerHTML = "";
+//						document.getElementById(prayer+"_arrow").innerHTML = "";
 						document.getElementById(prayer+"_new_iqama_time").innerHTML = "";
 					} else {
-						document.getElementById(prayer+"_arrow").innerHTML = "→";
+//						document.getElementById(prayer+"_arrow").innerHTML = "→";
 						var new_iqama_time = times_json[iqama_change_dates[prayer]][prayer][1];
 						var change_date = parseDate(iqama_change_dates[prayer]);
-						var change_date = change_date.toLocaleDateString(
-							'en-us', { weekday:"short", month:"short", day:"2-digit"});
+						var change_date_str = change_date.toLocaleDateString(
+							'en-us', { weekday:"short", month:"short", day:"numeric"});
 						document.getElementById(prayer+"_new_iqama_time").innerHTML = 
-							'<span class="update_time">' + change_date + '</span><br>' + new_iqama_time;
+							'<span class="update_time">' + change_date_str + '</span><br>' + new_iqama_time;
+						
+						// flash update time if within 8 days
+						if ((change_date - new Date()) / (1000 * 3600 * 24) < 6) {
+							document.getElementById(prayer+"_new_iqama_time").classList.add("urgent");
+						} else {
+							document.getElementById(prayer+"_new_iqama_time").classList.remove("urgent");
+						}
+						
 					}
 				}
 			}
