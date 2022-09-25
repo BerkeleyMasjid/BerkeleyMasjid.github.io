@@ -179,42 +179,42 @@
                 <!--					<th></th>-->
                 <th style="font-size: 1.5vh;">Upcoming<br>Iqama Changes</th>
             </tr>
-            <tr>
+            <tr id="fajr_row">
                 <td class="prayer_name">Fajr</td>
                 <td id="fajr_athan" class="athan_time">0:00</td>
                 <td id="fajr_iqama">0:00</td>
                 <!--					<td id="fajr_arrow">→</td>-->
                 <td id="fajr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
             </tr>
-            <tr>
+            <tr id="sunrise_row">
                 <td class="prayer_name">Sunrise</td>
                 <td id="sunrise_athan" class="athan_time">0:00</td>
                 <td id="sunrise_iqama">0:00</td>
                 <!--					<td id="sunrise_arrow">→</td>-->
                 <td id="sunrise_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
             </tr>
-            <tr class="">
+            <tr id="dhuhr_row">
                 <td class="prayer_name">Dhuhr<br><span class="friday_note">+ Friday Prayer</span></td>
                 <td id="dhuhr_athan" class="athan_time">0:00</td>
                 <td id="dhuhr_iqama">0:00</td>
                 <!--					<td id="dhuhr_arrow">→</td>-->
                 <td id="dhuhr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
             </tr>
-            <tr>
+            <tr id="asr_row">
                 <td class="prayer_name">Asr</td>
                 <td id="asr_athan" class="athan_time">0:00</td>
                 <td id="asr_iqama">0:00</td>
                 <!--					<td id="asr_arrow">→</td>-->
                 <td id="asr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
             </tr>
-            <tr class="">
+            <tr id="maghrib_row">
                 <td class="prayer_name">Maghrib</td>
                 <td id="maghrib_athan" class="athan_time">0:00</td>
                 <td id="maghrib_iqama">0:00</td>
                 <!--					<td id="maghrib_arrow">→</td>-->
                 <td id="maghrib_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
             </tr>
-            <tr>
+            <tr id="isha_row">
                 <td class="prayer_name">Isha</td>
                 <td id="isha_athan" class="athan_time">0:00</td>
                 <td id="isha_iqama">0:00</td>
@@ -224,6 +224,9 @@
         </table>
     </div>
     <script>
+        athan_times = null;
+        athan_names = ["fajr", "sunrise", "dhuhr", "asr", "maghrib", "isha"];
+
         function updateCurrentTime(now) {
             document.getElementById("datenow").innerHTML = now.toLocaleDateString(
                 'en-us', {
@@ -240,6 +243,22 @@
                 now_hours + "<span class='blink'>:</span>" + ("0" + now.getMinutes()).slice(-2);
         }
 
+        function highlightCurrentPrayer(now) {
+            if (athan_times) {
+                for (let i = 0; i < athan_names.length; i++) {
+                    time_now_fraction = now.getHours() + now.getMinutes() / 60;
+                    if (time_now_fraction >= athan_times[athan_names[i]]) {
+                        for (let j = 0; j < athan_names.length; j++) {
+                            document.getElementById(athan_names[j] + "_row").classList.remove("highlight");
+                        }
+
+                        document.getElementById(athan_names[i] + "_row").classList.add("highlight");
+
+                    }
+                }
+            }
+        }
+
         function getYYYYMMDD(date) {
             var YYYY = date.getFullYear();
             var MM = ("0" + (date.getMonth() + 1)).slice(-2);
@@ -252,6 +271,22 @@
             var MM = dateYYYYMMDD.substring(4, 6);
             var DD = dateYYYYMMDD.substring(6, 8);
             return new Date(parseInt(YYYY), parseInt(MM) - 1, parseInt(DD), 0, 0, 0, 0);
+        }
+
+        function time24to12hour(strHHMM) {
+            hours = parseInt(strHHMM.split(":")[0]);
+            minutes = strHHMM.split(":")[1];
+
+            if (!hours || !minutes) {
+                // if hours or minutes is undefined, wrong format, return original
+                return strHHMM;
+            }
+
+            if (hours > 12) {
+                hours -= 12;
+            }
+
+            return hours.toString() + ":" + minutes;
         }
 
         function findIqamaChangeDates(times_json, today) {
@@ -295,9 +330,13 @@
         function displayTimes(times_json, today, iqama_change_dates) {
             var today_times = times_json[today];
 
+            athan_times = {};
+
             for (let prayer in today_times) {
-                document.getElementById(prayer + "_athan").innerHTML = today_times[prayer][0];
-                document.getElementById(prayer + "_iqama").innerHTML = today_times[prayer][1];
+                document.getElementById(prayer + "_athan").innerHTML = time24to12hour(today_times[prayer][0]);
+                document.getElementById(prayer + "_iqama").innerHTML = time24to12hour(today_times[prayer][1]);
+
+                athan_times[prayer] = parseInt(today_times[prayer][0].split(':')[0]) + parseInt(today_times[prayer][0].split(':')[1]) / 60;
             }
 
             for (let prayer in iqama_change_dates) {
@@ -347,6 +386,7 @@
         window.setInterval(function() {
             var now = new Date();
             updateCurrentTime(now);
+            highlightCurrentPrayer(now);
 
             var today_YYYYMMDD = getYYYYMMDD(now);
 

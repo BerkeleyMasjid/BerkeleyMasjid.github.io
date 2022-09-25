@@ -7,8 +7,8 @@ import math
 def fraction_to_hours_minutes(fraction: float) -> str:
     hours = int(math.floor(fraction))
     minutes = round((fraction - hours) * 60)
-    if hours > 12:
-        hours -= 12
+    # if hours > 12:
+    #     hours -= 12
     return f"{hours}:{minutes:02d}"
 
 def undo_dst(df: pd.DataFrame) -> pd.DataFrame:
