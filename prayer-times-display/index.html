@@ -1,315 +1,361 @@
 <html>
+
 <head>
-	</head>
-	<style>
-		@font-face {
-			font-family: 'customfont';
-			src:  url('./LEMONMILK-Regular.otf');
-		}
-		html {
-			font-family: "customfont", "sans-serif";
-			padding: 2%;
-		}
-		body {
-			min-height: 100%;
-			margin: 0;
-		}
-		#header {
-			text-align: center;
-			width: 100%;
-		}
-		#datenow {
-			font-size: 5vh;
-			padding:0;
-			margin:0;
-		}
-		#timenow {
-			font-size: 10vh;
-			padding:0;
-			margin:0;
-		}
-		.blink {
-		  animation: blinker 2s linear infinite;
-		}
+</head>
+<style>
+    @font-face {
+        font-family: 'customfont';
+        src: url('./LEMONMILK-Regular.otf');
+    }
+    
+    html {
+        font-family: "customfont", "sans-serif";
+        padding: 2%;
+    }
+    
+    body {
+        min-height: 100%;
+        margin: 0;
+    }
+    
+    #header {
+        text-align: center;
+        width: 100%;
+    }
+    
+    #datenow {
+        font-size: 5vh;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #timenow {
+        font-size: 10vh;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .blink {
+        animation: blinker 2s linear infinite;
+    }
+    
+    @keyframes blinker {
+        75% {
+            opacity: 1;
+        }
+        74% {
+            opacity: 0.8;
+        }
+        25% {
+            opacity: 0.8;
+        }
+        24% {
+            opacity: 1;
+        }
+    }
+    
+    #left_bar {
+        background: white;
+        position: absolute;
+        width: 100%;
+        left: 0;
+    }
+    
+    #timetable {
+        width: 94vw;
+        max-width: 900px;
+        height: 60%;
+        margin: 2vh auto;
+        font-size: 5.6vh;
+        text-align: center;
+        border-collapse: separate;
+        border-spacing: 0 1vh;
+        border: solid 0px #000;
+    }
+    
+    #timetable th {
+        font-size: 2.3vh;
+        vertical-align: bottom;
+    }
+    
+    #timetable tr:not(:first-child) {
+        background: #DBDBDB;
+    }
+    
+    #timetable td:first-child {
+        border-top-left-radius: 1vh;
+        border-bottom-left-radius: 1vh;
+    }
+    
+    #timetable td:last-child {
+        border-top-right-radius: 1vh;
+        border-bottom-right-radius: 1vh;
+    }
+    
+    .highlight {
+        background: #9C2426!important;
+        color: white;
+    }
+    
+    .prayer_name {
+        text-align: left;
+        padding-left: 2vh;
+    }
+    
+    #maghrib_iqama {
+        font-size: 4vh;
+    }
+    
+    .update_time {
+        font-size: 1.8vh;
+    }
+    
+    .new_iqama_time {
+        font-size: 3.4vh!important;
+        line-height: 3vh;
+        padding-bottom: 1vh;
+    }
+    
+    .arrow {
+        position: relative;
+        top: -0.3vh;
+        font-size: 2vh;
+        line-height: 2.4vh;
+    }
+    
+    .friday_note {
+        position: relative;
+        top: -0.8vh;
+        font-size: 2.5vh;
+        line-height: 2.8vh;
+    }
+    
+    .urgent {
+        animation: urgent_blinker 2s linear infinite;
+    }
+    
+    @keyframes urgent_blinker {
+        65% {
+            opacity: 1;
+        }
+        55% {
+            opacity: 0;
+        }
+        45% {
+            opacity: 0;
+        }
+        35% {
+            opacity: 1;
+        }
+    }
+    
+    @media only screen and (max-width: 992px) {
+        #timetable {
+            font-size: 5vh;
+        }
+    }
+    
+    @media only screen and (max-width: 768px) {
+        #timetable {
+            font-size: 4vh;
+        }
+        #maghrib_iqama {
+            font-size: 3vh;
+        }
+    }
+</style>
 
-		@keyframes blinker {
-			75% {
-				opacity: 1;
-			  }
-			74% {
-				opacity: 0.8;
-			  }
-			25% {
-				opacity: 0.8;
-			  }
-			24% {
-				opacity: 1;
-			  }
-		}
-		#left_bar {
-			background: white;
-			position: absolute;
-			width: 100%;
-			left: 0;
-		}
-		#timetable {
-			width: 60vw;
-			height: 60%;
-			margin: 2vh 20vw;
-			font-size: 5.6vh;
-			text-align: center;
-			border-collapse:separate;
-			border-spacing: 0 1vh;
-    		border: solid 0px #000;
-		}
-		#timetable th {
-			font-size: 2.3vh;
-			vertical-align: bottom;
-		}
-		#timetable tr:not(:first-child) {
-			background: #DBDBDB;
-		}
-		#timetable td:first-child { 
-		  	border-top-left-radius: 1vh; 
-		  	border-bottom-left-radius: 1vh;
-		}
+<body>
+    <div id="header">
+        <h4 id="datenow">Weekday, Month 00</h4>
+        <h1 id="timenow">00:00</h1>
+    </div>
+    <div id="left_bar">
+        <table id="timetable">
+            <tr>
+                <th></th>
+                <th>Athan</th>
+                <th>Iqama</th>
+                <!--					<th></th>-->
+                <th style="font-size: 1.5vh;">Upcoming<br>Iqama Changes</th>
+            </tr>
+            <tr>
+                <td class="prayer_name">Fajr</td>
+                <td id="fajr_athan" class="athan_time">0:00</td>
+                <td id="fajr_iqama">0:00</td>
+                <!--					<td id="fajr_arrow">→</td>-->
+                <td id="fajr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+            <tr>
+                <td class="prayer_name">Sunrise</td>
+                <td id="sunrise_athan" class="athan_time">0:00</td>
+                <td id="sunrise_iqama">0:00</td>
+                <!--					<td id="sunrise_arrow">→</td>-->
+                <td id="sunrise_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+            <tr class="">
+                <td class="prayer_name">Dhuhr<br><span class="friday_note">+ Friday Prayer</span></td>
+                <td id="dhuhr_athan" class="athan_time">0:00</td>
+                <td id="dhuhr_iqama">0:00</td>
+                <!--					<td id="dhuhr_arrow">→</td>-->
+                <td id="dhuhr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+            <tr>
+                <td class="prayer_name">Asr</td>
+                <td id="asr_athan" class="athan_time">0:00</td>
+                <td id="asr_iqama">0:00</td>
+                <!--					<td id="asr_arrow">→</td>-->
+                <td id="asr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+            <tr class="">
+                <td class="prayer_name">Maghrib</td>
+                <td id="maghrib_athan" class="athan_time">0:00</td>
+                <td id="maghrib_iqama">0:00</td>
+                <!--					<td id="maghrib_arrow">→</td>-->
+                <td id="maghrib_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+            <tr>
+                <td class="prayer_name">Isha</td>
+                <td id="isha_athan" class="athan_time">0:00</td>
+                <td id="isha_iqama">0:00</td>
+                <!--					<td id="isha_arrow">→</td>-->
+                <td id="isha_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        function updateCurrentTime(now) {
+            document.getElementById("datenow").innerHTML = now.toLocaleDateString(
+                'en-us', {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric"
+                });
 
-		#timetable td:last-child { 
-		  	border-top-right-radius: 1vh; 
-		  	border-bottom-right-radius: 1vh; 
-		}
-		.highlight {
-			background: #9C2426!important;
-			color: white;
-		}
-		.prayer_name {
-			text-align: left;
-			padding-left: 2vh;
-		}
-		#maghrib_iqama {
-			font-size: 4vh;
-		}
-		.update_time {
-			font-size: 1.8vh;
-		}
-		.new_iqama_time{
-			font-size: 3.4vh!important;
-			line-height: 3vh;
-			padding-bottom: 1vh;
-		}
-		.arrow {
-			position:relative;
-    		top:-0.3vh;
-			font-size: 2vh;
-			line-height: 2.4vh;
-		}
-		.friday_note {
-			position:relative;
-    		top:-0.5vh;
-			font-size: 2.5vh;
-			line-height: 2.4vh;
-		}
-		.urgent {
-			animation: urgent_blinker 2s linear infinite;
-		}
+            var now_hours = now.getHours();
+            if (now_hours > 12) {
+                now_hours -= 12;
+            }
+            document.getElementById("timenow").innerHTML =
+                now_hours + "<span class='blink'>:</span>" + ("0" + now.getMinutes()).slice(-2);
+        }
 
-		@keyframes urgent_blinker {
-			65% {
-				opacity: 1;
-			  }
-			55% {
-				opacity: 0;
-			  }
-			45% {
-				opacity: 0;
-			  }
-			35% {
-				opacity: 1;
-			  }
-		}
-	</style>
-	<body>
-		<div id="header">
-			<h4 id="datenow">Weekday, Month 00</h4>
-			<h1 id="timenow">00:00</h1>
-		</div>
-		<div id="left_bar">
-			<table id="timetable">
-				<tr>
-					<th></th>
-					<th>Athan</th>
-					<th>Iqama</th>
-<!--					<th></th>-->
-					<th style="font-size: 1.5vh;">Upcoming<br>Iqama Changes</th>
-				</tr>
-				<tr>
-					<td class="prayer_name">Fajr</td>
-					<td id="fajr_athan" class="athan_time">0:00</td>
-					<td id="fajr_iqama">0:00</td>
-<!--					<td id="fajr_arrow">→</td>-->
-					<td id="fajr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-				<tr>
-					<td class="prayer_name">Sunrise</td>
-					<td id="sunrise_athan" class="athan_time">0:00</td>
-					<td id="sunrise_iqama">0:00</td>
-<!--					<td id="sunrise_arrow">→</td>-->
-					<td id="sunrise_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-				<tr class="">
-					<td class="prayer_name" style="font-size: 5vh">Dhuhr<br><span class="friday_note">+ Friday Prayer</span></td>
-					<td id="dhuhr_athan" class="athan_time">0:00</td>
-					<td id="dhuhr_iqama">0:00</td>
-<!--					<td id="dhuhr_arrow">→</td>-->
-					<td id="dhuhr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-				<tr>
-					<td class="prayer_name">Asr</td>
-					<td id="asr_athan" class="athan_time">0:00</td>
-					<td id="asr_iqama">0:00</td>
-<!--					<td id="asr_arrow">→</td>-->
-					<td id="asr_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-				<tr class="">
-					<td class="prayer_name">Maghrib</td>
-					<td id="maghrib_athan" class="athan_time">0:00</td>
-					<td id="maghrib_iqama">0:00</td>
-<!--					<td id="maghrib_arrow">→</td>-->
-					<td id="maghrib_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-				<tr>
-					<td class="prayer_name">Isha</td>
-					<td id="isha_athan" class="athan_time">0:00</td>
-					<td id="isha_iqama">0:00</td>
-<!--					<td id="isha_arrow">→</td>-->
-					<td id="isha_new_iqama_time" class="new_iqama_time"><span class="update_time">WED SEP 00</span><br>0:00</td>
-				</tr>
-			</table>
-		</div>
-		<script>
-			function updateCurrentTime(now) {
-				document.getElementById("datenow").innerHTML = now.toLocaleDateString(
-					'en-us', { weekday:"long", month:"long", day:"numeric"});
-				
-				var now_hours = now.getHours();
-				if (now_hours > 12) {
-					now_hours -= 12;
-				}
-				document.getElementById("timenow").innerHTML = 
-					now_hours + "<span class='blink'>:</span>" + ("0" + now.getMinutes()).slice(-2);
-			}
-			
-			function getYYYYMMDD(date) {
-				var YYYY = date.getFullYear();
-				var MM = ("0" + (date.getMonth()+1)).slice(-2);
-				var DD = ("0" + date.getDate()).slice(-2);
-				return YYYY + MM + DD;
-			}
-			
-			function parseDate(dateYYYYMMDD) {
-				var YYYY = dateYYYYMMDD.substring(0, 4);
-				var MM = dateYYYYMMDD.substring(4, 6);
-				var DD = dateYYYYMMDD.substring(6, 8);
-				return new Date(parseInt(YYYY), parseInt(MM)-1, parseInt(DD), 0, 0, 0, 0);
-			}
-			
-			function findIqamaChangeDates(times_json, today) {
-				var change_dates = {
-					"fajr":"", 
-					"sunrise":"", 
-					"dhuhr":"", 
-					"asr":"", 
-					"maghrib":"", 
-					"isha":""
-				};
-				
-				var today_int = parseInt(today);
-				var today_times = times_json[today];
-				
-				max_lookahead_days = 30;
-				num_lookahead_days = 0;
-				for (let date in times_json) {
-					if (num_lookahead_days == max_lookahead_days) {
-						break;
-					}
-					
-					if (parseInt(date) <= today) {
-						continue;
-					}
-					
-					for (let prayer in change_dates) {
-						if (change_dates[prayer] == "") {
-							if (times_json[date][prayer][1] != today_times[prayer][1]) {
-								change_dates[prayer] = date;
-							}
-						}
-					}
-					
-					num_lookahead_days += 1;
-				}
+        function getYYYYMMDD(date) {
+            var YYYY = date.getFullYear();
+            var MM = ("0" + (date.getMonth() + 1)).slice(-2);
+            var DD = ("0" + date.getDate()).slice(-2);
+            return YYYY + MM + DD;
+        }
 
-				return change_dates;
-			}
-			
-			function displayTimes(times_json, today, iqama_change_dates) {
-				var today_times = times_json[today];
-				
-				for (let prayer in today_times) {
-					document.getElementById(prayer+"_athan").innerHTML = today_times[prayer][0];
-					document.getElementById(prayer+"_iqama").innerHTML = today_times[prayer][1];
-				}
-				
-				for (let prayer in iqama_change_dates) {
-					if (iqama_change_dates[prayer] == "") {
-//						document.getElementById(prayer+"_arrow").innerHTML = "";
-						document.getElementById(prayer+"_new_iqama_time").innerHTML = "";
-					} else {
-//						document.getElementById(prayer+"_arrow").innerHTML = "→";
-						var new_iqama_time = times_json[iqama_change_dates[prayer]][prayer][1];
-						var change_date = parseDate(iqama_change_dates[prayer]);
-						var change_date_str = change_date.toLocaleDateString(
-							'en-us', { weekday:"short", month:"short", day:"numeric"});
-						document.getElementById(prayer+"_new_iqama_time").innerHTML = 
-							'<span class="update_time">' + change_date_str + '</span><br>' + new_iqama_time;
-						
-						// flash update time if within 8 days
-						if ((change_date - new Date()) / (1000 * 3600 * 24) < 6) {
-							document.getElementById(prayer+"_new_iqama_time").classList.add("urgent");
-						} else {
-							document.getElementById(prayer+"_new_iqama_time").classList.remove("urgent");
-						}
-						
-					}
-				}
-			}
-			
-			function processTimes(times_json) {
-				var now = new Date();
-				var today = getYYYYMMDD(now);
-				var today_idx = Object.keys(times_json).indexOf(today);
-				var iqama_change_dates = findIqamaChangeDates(times_json, today);
-				displayTimes(times_json, today, iqama_change_dates);
-			}
-			
-			function updateDisplayTimes() {
-				fetch('./timetable.json')
-					.then((response) => response.json())
-					.then((json) => processTimes(json));
-			}
-			
-			var last_update_YYYYMMDD = "";
-			
-			window.setInterval(function(){
-				var now = new Date();
-			  	updateCurrentTime(now);
-				
-				var today_YYYYMMDD = getYYYYMMDD(now);
-				
-				if (last_update_YYYYMMDD != today_YYYYMMDD) {
-					last_update_YYYYMMDD = today_YYYYMMDD;
-					updateDisplayTimes();
-				}
-			}, 1000);
-		</script>
-	</body>
+        function parseDate(dateYYYYMMDD) {
+            var YYYY = dateYYYYMMDD.substring(0, 4);
+            var MM = dateYYYYMMDD.substring(4, 6);
+            var DD = dateYYYYMMDD.substring(6, 8);
+            return new Date(parseInt(YYYY), parseInt(MM) - 1, parseInt(DD), 0, 0, 0, 0);
+        }
+
+        function findIqamaChangeDates(times_json, today) {
+            var change_dates = {
+                "fajr": "",
+                "sunrise": "",
+                "dhuhr": "",
+                "asr": "",
+                "maghrib": "",
+                "isha": ""
+            };
+
+            var today_int = parseInt(today);
+            var today_times = times_json[today];
+
+            max_lookahead_days = 30;
+            num_lookahead_days = 0;
+            for (let date in times_json) {
+                if (num_lookahead_days == max_lookahead_days) {
+                    break;
+                }
+
+                if (parseInt(date) <= today) {
+                    continue;
+                }
+
+                for (let prayer in change_dates) {
+                    if (change_dates[prayer] == "") {
+                        if (times_json[date][prayer][1] != today_times[prayer][1]) {
+                            change_dates[prayer] = date;
+                        }
+                    }
+                }
+
+                num_lookahead_days += 1;
+            }
+
+            return change_dates;
+        }
+
+        function displayTimes(times_json, today, iqama_change_dates) {
+            var today_times = times_json[today];
+
+            for (let prayer in today_times) {
+                document.getElementById(prayer + "_athan").innerHTML = today_times[prayer][0];
+                document.getElementById(prayer + "_iqama").innerHTML = today_times[prayer][1];
+            }
+
+            for (let prayer in iqama_change_dates) {
+                if (iqama_change_dates[prayer] == "") {
+                    //						document.getElementById(prayer+"_arrow").innerHTML = "";
+                    document.getElementById(prayer + "_new_iqama_time").innerHTML = "";
+                } else {
+                    //						document.getElementById(prayer+"_arrow").innerHTML = "→";
+                    var new_iqama_time = times_json[iqama_change_dates[prayer]][prayer][1];
+                    var change_date = parseDate(iqama_change_dates[prayer]);
+                    var change_date_str = change_date.toLocaleDateString(
+                        'en-us', {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric"
+                        });
+                    document.getElementById(prayer + "_new_iqama_time").innerHTML =
+                        '<span class="update_time">' + change_date_str + '</span><br>' + new_iqama_time;
+
+                    // flash update time if within 8 days
+                    if ((change_date - new Date()) / (1000 * 3600 * 24) < 6) {
+                        document.getElementById(prayer + "_new_iqama_time").classList.add("urgent");
+                    } else {
+                        document.getElementById(prayer + "_new_iqama_time").classList.remove("urgent");
+                    }
+
+                }
+            }
+        }
+
+        function processTimes(times_json) {
+            var now = new Date();
+            var today = getYYYYMMDD(now);
+            var today_idx = Object.keys(times_json).indexOf(today);
+            var iqama_change_dates = findIqamaChangeDates(times_json, today);
+            displayTimes(times_json, today, iqama_change_dates);
+        }
+
+        function updateDisplayTimes() {
+            fetch('./timetable.json')
+                .then((response) => response.json())
+                .then((json) => processTimes(json));
+        }
+
+        var last_update_YYYYMMDD = "";
+
+        window.setInterval(function() {
+            var now = new Date();
+            updateCurrentTime(now);
+
+            var today_YYYYMMDD = getYYYYMMDD(now);
+
+            if (last_update_YYYYMMDD != today_YYYYMMDD) {
+                last_update_YYYYMMDD = today_YYYYMMDD;
+                updateDisplayTimes();
+            }
+        }, 1000);
+    </script>
+</body>
+
 </html>
