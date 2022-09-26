@@ -63,7 +63,7 @@
     
     #timetable {
         width: 94vw;
-        max-width: 900px;
+        max-width: 1100px;
         margin: 2vh auto;
         margin-top: 0;
         font-size: 6vh;
@@ -350,7 +350,7 @@
                     document.getElementById(prayer + "_new_iqama_time").innerHTML = "";
                 } else {
                     //						document.getElementById(prayer+"_arrow").innerHTML = "→";
-                    var new_iqama_time = times_json[iqama_change_dates[prayer]][prayer][1];
+                    var new_iqama_time = time24to12hour(times_json[iqama_change_dates[prayer]][prayer][1]);
                     var change_date = parseDate(iqama_change_dates[prayer]);
                     var change_date_str = change_date.toLocaleDateString(
                         'en-us', {
