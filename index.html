@@ -24,131 +24,76 @@
 	<!-- Header -->
 
 	<header class="header">
-<!-- 
-		<script type="text/javascript" src="https://code.jquery.com/jquery-1.8.2.js"></script>
-<style type="text/css">
-#overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background-color: #000;
-filter:alpha(opacity=70);
--moz-opacity:0.7;
--khtml-opacity: 0.7;
-opacity: 0.7;
-z-index: 100;
-display: none;
-}
-.cnt223 a{
-text-decoration: none;
-}
-.popup{
-width: 100%;
-margin: 0 auto;
-display: none;
-position: fixed;
-z-index: 101;
-}
-.cnt223{
-max-width: 100%;
-width: 600px;
-min-height: 150px;
-margin: 150px auto;
-background: #f3f3f3;
-position: relative;
-z-index: 103;
-padding: 15px 35px;
-border-radius: 5px;
-box-shadow: 0 2px 5px #000;
-}
-.cnt223 p{
-clear: both;
-    color: #555555;
-    /* text-align: justify; */
-    font-size: 20px;
-    font-family: sans-serif;
-	
-	
+    <style>
+        .custom-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 90%;
+            width: 500px;
+            position: relative;
+        }
+        .custom-popup-content img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .custom-popup-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .popup-btn {
+            padding: 10px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .btn-yes {
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+        }
+        .btn-no {
+            background-color: #dc3545;
+            color: white;
+        }
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #333;
+        }
+    </style>
 
-}
-.cnt223 p a{
-color: #b10707;
-font-weight: bold;
-width: 160px;
-height: 46px;
-text-align: center;
-background: ;
-border-radius: 3px;
-}
-.cnt223 .x{
-float: right;
-height: 35px;
-left: 22px;
-position: relative;
-top: -25px;
-width: 34px;
-}
-.cnt223 .x:hover{
-cursor: pointer;
-}
-</style>
-<script type='text/javascript'>
-$(function(){
-var overlay = $('<div id="overlay"></div>');
-overlay.show();
-overlay.appendTo(document.body);
-$('.popup').show();
-$('.close').click(function(){
-$('.popup').hide();
-overlay.appendTo(document.body).remove();
-return false;
-});
-
-
- 
-
-$('.x').click(function(){
-$('.popup').hide();
-overlay.appendTo(document.body).remove();
-return false;
-});
-});
-</script>
-<div class='popup'>
-<div class='cnt223'>
-
-<a style="font-weight: 700;
-width: 0px;
-text-align: center;
-color: grey;
-font-size: 30px;
-float: right;" class='close' href='' >X</a>
-<center><h3 style="color:#b10707;">Final $5k Left!</h3>
-<p>
-	A UC Berkeley alumni has offered to partially match each donation and we only need $5k to pay off the masjid entirely iA<br>
-	<span style="color:#b10707;">EID Salah will start at 8:30AM and Takbeerah at 8:00AM on Tuesday July 20th</span> 
-<br/>
-
-
-<a style="font-weight: 700;
-width: 160px;
-height: 46px;
-text-align: center;
-background: #b10707;
-padding: 8px 20px 8px 20px;
-color: #FFFFFF;
-font-size: 16px;
-border-radius: 3px;" href='https://www.launchgood.com/campaign/berkeley_masjid_final_payoff#!/'>DONATE</a>
-
-
-</center>
-
-<br/>
-</p>
-</div> 
-</div> -->
+    <div id="iftarPopup" class="custom-popup-overlay">
+        <div class="custom-popup-content">
+            <span class="close-popup" onclick="document.getElementById('iftarPopup').style.display='none'">&times;</span>
+            <img src="images/banner.png" alt="Ramadan Banner">
+            <h3>Do you want to sponsor Iftar?</h3>
+            <div class="custom-popup-buttons">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScMpQRQFevk_TPzimn1gbPBztip7p3BTNvifQoTGCwqSteFDA/viewform?usp=publish-editor" class="popup-btn btn-yes">Yes</a>
+                <button class="popup-btn btn-no" onclick="document.getElementById('iftarPopup').style.display='none'">No</button>
+            </div>
+        </div>
+    </div>
 			
 		<!-- Top Bar -->
 		<div class="top_bar">
@@ -283,11 +228,9 @@ border-radius: 3px;" href='https://www.launchgood.com/campaign/berkeley_masjid_f
 						<div class="event_content" style="padding-left: 30px;">
 							<div class="event_title" style="color:#b10707; margin-bottom: 10px;"><a href="announcements.html" style="color:#b10707; text-decoration: none;">Announcements</a></div>
 							<p style="font-size: 18px; color: black; margin: 0 0 15px 0; line-height: 1.5;">
-								<span style="color: #b10707; font-weight: bold;">Saturday School - Spring 2026</span><br>
-								Registration is now open! <b>Ages:</b> 5-14 | <b>Starts:</b> Jan 17, 2026<br>
-								<b>Time:</b> 11AM-1:30PM | <b>Fee:</b> $65 (Siblings: $50)
+								<span style="color: #b10707; font-weight: bold;">Taraweeh Update</span><br>
+								Taraweeh starts Feb 17th 10 mins after isha comes in.
 							</p>
-							<a href="https://tinyurl.com/yx8ed6c3" target="_blank" style="background-color: #1a5276; color: white; padding: 10px 25px; border-radius: 5px; text-decoration: none; font-weight: bold; display: inline-block;">Register Now</a>
 						</div>
 					</div>
 				</div>
